@@ -14,6 +14,12 @@ namespace SmartLink.API.Controllers
         private readonly ILinkWriteRepository _linkWriteRepository;
         private readonly ILinkService _linkService;
 
+        public class AddLinkRequest
+        {
+            public string Url { get; set; }
+            public string Title { get; set; }
+        }
+
         public LinkController(ILinkReadRepository linkReadRepository, ILinkWriteRepository linkWriteRepository, ILinkService linkService)
         {
             _linkReadRepository = linkReadRepository;
@@ -30,13 +36,14 @@ namespace SmartLink.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddLink(string url, string title)
+        public async Task<IActionResult> AddLink([FromBody] AddLinkRequest request)
         {
             try
             {
-                string sum = await _linkService.GetAiSummary(url);
+                string sum = await _linkService.GetAiSummary(request.Url);
+                //will be replaced with dto
                 LinkEntity link = new LinkEntity
-                    { Url = url, Title = title, Summary = sum };
+                    { Url = request.Url, Title = request.Title, Summary = sum };
                 await _linkWriteRepository.AddAsync(link);
                 await _linkWriteRepository.SaveChangesAsync();
                 return Ok(link);

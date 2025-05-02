@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SmartLinkClient.Models;
 
 namespace SmartLinkClient.Controllers
@@ -12,21 +13,30 @@ namespace SmartLinkClient.Controllers
         {
             _logger = logger;
         }
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            return View();
+        }
 
-        public IActionResult Index()
+        [HttpPost]
+        public async Task<IActionResult> Index(LinkViewModel link)
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://smartlinkapi.imaginewebsite.com.tr/api/");
-                var responseTask = client.GetAsync("link");
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
+                client.BaseAddress = new Uri("https://smartlinkapi.imaginewebsite.com.tr/api/link");
+                var response = await client.PostAsJsonAsync("", new { Url = link.Url, Title = link.Title });
+                if (response.IsSuccessStatusCode)
                 {
+                    var responseContent = await response.Content.ReadAsStringAsync();
 
+                    var resultLink = JsonConvert.DeserializeObject<LinkViewModel>(responseContent);
+
+                    link.Summary = resultLink?.Summary;
+                    return Json(new { summary = resultLink?.Summary });
                 }
-
             }
-            return View();
+            return NotFound();
         }
 
         public IActionResult Privacy()

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<HasRuntimeOutput>true</HasRuntimeOutput>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.4" />
+		<PackageReference Include="Mscc.GenerativeAI" Version="2.5.3" />
+		<PackageReference Include="NUglify" Version="1.21.15" />
+		<PackageReference Include="PuppeteerSharp" Version="20.1.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\SmartLink.Application\SmartLink.Application.csproj" />
+		<ProjectReference Include="..\..\Core\SmartLink.Domain\SmartLink.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

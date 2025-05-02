@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{55303C17-E83D-400A-A123-3609AA23EB4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{B95E807B-4B92-44D5-9444-8C176317BACD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E3FB47B3-C4A6-4AAE-BF45-F48A981FF7BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartLink.Application", "Core\SmartLink.Application\SmartLink.Application.csproj", "{3B1C9722-B623-490A-A9ED-8F22EE1DCF39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartLink.Domain", "Core\SmartLink.Domain\SmartLink.Domain.csproj", "{292BA50F-D3EF-4C78-B602-2910136FEB49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartLink.Infrastructure", "Infrastructure\SmartLink.Infrastructure\SmartLink.Infrastructure.csproj", "{3E485A82-5EEC-4439-AA13-0F220F1873D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartLink.Persistance", "Infrastructure\SmartLink.Persistance\SmartLink.Persistance.csproj", "{CD1958AC-DA8F-402B-80F8-8EDBBCDF5DBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartLink.API", "Presentation\SmartLink.API\SmartLink.API.csproj", "{5E73FE65-EC21-49B8-A3A4-6BD92DEE04D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B1C9722-B623-490A-A9ED-8F22EE1DCF39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B1C9722-B623-490A-A9ED-8F22EE1DCF39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B1C9722-B623-490A-A9ED-8F22EE1DCF39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B1C9722-B623-490A-A9ED-8F22EE1DCF39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{292BA50F-D3EF-4C78-B602-2910136FEB49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{292BA50F-D3EF-4C78-B602-2910136FEB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{292BA50F-D3EF-4C78-B602-2910136FEB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{292BA50F-D3EF-4C78-B602-2910136FEB49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E485A82-5EEC-4439-AA13-0F220F1873D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E485A82-5EEC-4439-AA13-0F220F1873D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E485A82-5EEC-4439-AA13-0F220F1873D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E485A82-5EEC-4439-AA13-0F220F1873D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD1958AC-DA8F-402B-80F8-8EDBBCDF5DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD1958AC-DA8F-402B-80F8-8EDBBCDF5DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD1958AC-DA8F-402B-80F8-8EDBBCDF5DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD1958AC-DA8F-402B-80F8-8EDBBCDF5DBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E73FE65-EC21-49B8-A3A4-6BD92DEE04D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E73FE65-EC21-49B8-A3A4-6BD92DEE04D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E73FE65-EC21-49B8-A3A4-6BD92DEE04D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E73FE65-EC21-49B8-A3A4-6BD92DEE04D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3B1C9722-B623-490A-A9ED-8F22EE1DCF39} = {55303C17-E83D-400A-A123-3609AA23EB4C}
+		{292BA50F-D3EF-4C78-B602-2910136FEB49} = {55303C17-E83D-400A-A123-3609AA23EB4C}
+		{3E485A82-5EEC-4439-AA13-0F220F1873D1} = {B95E807B-4B92-44D5-9444-8C176317BACD}
+		{CD1958AC-DA8F-402B-80F8-8EDBBCDF5DBC} = {B95E807B-4B92-44D5-9444-8C176317BACD}
+		{5E73FE65-EC21-49B8-A3A4-6BD92DEE04D9} = {E3FB47B3-C4A6-4AAE-BF45-F48A981FF7BF}
+	EndGlobalSection
+EndGlobal

@@ -13,7 +13,6 @@ namespace SmartLink.Domain.Entities
         public string Title { get; set; }
         public string? Description { get; set; }
         public string Summary { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool IsArchived { get; set; } = false;
         public string? Notes { get; set; }
         public ICollection<LinkTag> LinkTags { get; set; }

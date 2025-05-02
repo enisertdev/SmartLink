@@ -33,7 +33,8 @@ namespace SmartLink.Persistance.Services
             {
                 throw new Exception("API key eksik.");
             }
-            var prompt = plainText + " \n bu metnin içeriğini detaylıca açıkla.Bazı önemli bilgileri ayrıca vurgula.";
+            // var prompt = plainText + " \n bu metnin içeriğini detaylıca açıkla.Bazı önemli bilgileri ayrıca vurgula.";
+            var prompt = plainText + " \nexplain this text in detail.";
 
             var googleAi = new GoogleAI(apiKey: apiKey);
             var model = googleAi.GenerativeModel(model: Model.Gemini15Pro);

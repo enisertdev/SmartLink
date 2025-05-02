@@ -13,7 +13,7 @@ namespace SmartLink.Persistance.DbContext
         public DbSet<LinkEntity> Links { get; set; }
         public DbSet<LinkTag> LinkTags { get; set; }
         public DbSet<TagEntity> Tags { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
         public SmartLinkDbContext(DbContextOptions<SmartLinkDbContext> options) : base(options)
         {
 

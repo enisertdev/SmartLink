@@ -14,11 +14,12 @@ namespace SmartLink.API.Controllers
         private readonly IUserWriteRepository _userWriteRepository;
         private readonly IUserService _userService;
 
-        public class UserForCreate
+        public class User
         {
             public string Username { get; set; }
             public string Password { get; set; }
         }
+  
 
         public UsersController(IUserReadRepository userReadRepository, IUserWriteRepository userWriteRepository, IUserService userService)
         {
@@ -28,7 +29,7 @@ namespace SmartLink.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserForCreate user)
+        public async Task<IActionResult> CreateUser([FromBody] User user)
         {
             var hashedPassword = _userService.HashPassword(user.Password);
             UserEntity newUser = new() { Username = user.Username, PasswordHash = hashedPassword.Hash,PasswordSalt = hashedPassword.Salt};
@@ -42,6 +43,17 @@ namespace SmartLink.API.Controllers
         {
             var users = _userReadRepository.GetAll(false);
             return Ok(users);
+        }
+
+        [HttpGet]
+        [Route("get")]
+        public async Task<IActionResult> GetUser(string username, string password)
+        {
+            var getUser = await _userReadRepository.GetSingleAsync(u => u.Username == username);
+            bool isCorrect = await _userService.VerifyPassword(username, password, getUser.PasswordSalt);
+            if (isCorrect)
+                return Ok(getUser);
+            return StatusCode(403);
         }
     }
 }

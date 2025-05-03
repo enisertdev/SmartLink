@@ -15,6 +15,8 @@ namespace SmartLink.Domain.Entities
         public string Summary { get; set; }
         public bool IsArchived { get; set; } = false;
         public string? Notes { get; set; }
+        public Guid? UserId { get; set; }
+        public UserEntity? User { get; set; }
         public ICollection<LinkTag> LinkTags { get; set; }
     }
 }

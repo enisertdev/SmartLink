@@ -19,7 +19,7 @@ namespace SmartLink.API.Controllers
             public string Username { get; set; }
             public string Password { get; set; }
         }
-  
+
 
         public UsersController(IUserReadRepository userReadRepository, IUserWriteRepository userWriteRepository, IUserService userService)
         {
@@ -32,7 +32,7 @@ namespace SmartLink.API.Controllers
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
             var hashedPassword = _userService.HashPassword(user.Password);
-            UserEntity newUser = new() { Username = user.Username, PasswordHash = hashedPassword.Hash,PasswordSalt = hashedPassword.Salt};
+            UserEntity newUser = new() { Username = user.Username, PasswordHash = hashedPassword.Hash, PasswordSalt = hashedPassword.Salt };
             await _userWriteRepository.AddAsync(newUser);
             await _userWriteRepository.SaveChangesAsync();
             return Ok(newUser);
@@ -46,14 +46,22 @@ namespace SmartLink.API.Controllers
         }
 
         [HttpGet]
-        [Route("get")]
-        public async Task<IActionResult> GetUser(string username, string password)
+        [Route("{username}")]
+        public async Task<IActionResult> GetUser(string username)
         {
             var getUser = await _userReadRepository.GetSingleAsync(u => u.Username == username);
-            bool isCorrect = await _userService.VerifyPassword(username, password, getUser.PasswordSalt);
+            return Ok(getUser);
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] User user)
+        {
+            var getUser = await _userReadRepository.GetSingleAsync(u => u.Username == user.Username);
+            bool isCorrect = await _userService.VerifyPassword(user.Username, user.Password, getUser.PasswordSalt);
             if (isCorrect)
                 return Ok(getUser);
-            return StatusCode(403);
+            return BadRequest(new { message = "Username or password incorrect." });
         }
     }
 }

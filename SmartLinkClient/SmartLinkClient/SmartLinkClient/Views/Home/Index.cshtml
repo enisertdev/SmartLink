@@ -1,4 +1,6 @@
-﻿
+﻿@{
+    Layout = null;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +14,107 @@
 
 </head>
 <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span class="navbar-logo-text">URL Summarizer</span>
+            </a>
+            <div class="navbar-links">
+                <!-- Auth buttons (shown when logged out) -->
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="login-button" id="login-btn">Giriş Yap</button>
+                    <button class="register-button" id="register-btn">Kayıt Ol</button>
+                </div>
+
+                <!-- User info (shown when logged in) -->
+                <div class="user-info" id="user-info" style="display: none;">
+                    <div class="user-avatar" id="user-avatar">U</div>
+                    <span class="user-name" id="user-name">Username</span>
+                    <button class="logout-button" id="logout-btn">Çıkış Yap</button>
+                </div>
+            </div>
+            <button class="navbar-menu-button" id="menu-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <!-- Mobile auth buttons (shown when logged out) -->
+        <div class="mobile-auth-buttons" id="mobile-auth-buttons">
+            <button class="login-button" id="mobile-login-btn">Giriş Yap</button>
+            <button class="register-button" id="mobile-register-btn">Kayıt Ol</button>
+        </div>
+
+        <!-- Mobile user info (shown when logged in) -->
+        <div class="mobile-user-info" id="mobile-user-info" style="display: none;">
+            <div class="user-info">
+                <div class="user-avatar" id="mobile-user-avatar">U</div>
+                <span class="user-name" id="mobile-user-name">Username</span>
+            </div>
+            <button class="logout-button" id="mobile-logout-btn">Çıkış Yap</button>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Giriş Yap</h3>
+                <button class="modal-close" id="close-login">&times;</button>
+            </div>
+            <form class="modal-form" id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Kullanıcı Adı</label>
+                    <input type="text" id="login-email" placeholder="Kullanıcı adınızı girin" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Şifre</label>
+                    <input type="password" id="login-password" placeholder="Şifrenizi girin" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="register-button">Giriş Yap</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Kayıt Ol</h3>
+                <button class="modal-close" id="close-register">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="register-name">Kullanıcı Adı</label>
+                <input type="text" id="register-name" placeholder="Kullanıcı adınızı girin" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Şifre</label>
+                <input type="password" id="register-password" placeholder="En az 6 karakter kullanın" required>
+            </div>
+            <div class="form-group">
+                <label for="register-confirm-password">Şifre Tekrar</label>
+                <input type="password" id="register-confirm-password" placeholder="Şifrenizi tekrar girin" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="register-button" class="register-button">Kayıt Ol</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <div class="header-content">
@@ -77,6 +180,7 @@
     <div class="toast" id="toast">Copied to clipboard!</div>
 
     <script>
+        // DOM Elements
         const urlInput = document.getElementById("url-input");
         const titleInput = document.getElementById("title-input");
         const summarizeBtn = document.getElementById("summarize-btn");
@@ -87,6 +191,72 @@
         const copyBtn = document.getElementById("copy-btn");
         const toast = document.getElementById("toast");
 
+        // Navbar Elements
+        const menuToggle = document.getElementById("menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const loginBtn = document.getElementById("login-btn");
+        const registerBtn = document.getElementById("register-btn");
+        const mobileLoginBtn = document.getElementById("mobile-login-btn");
+        const mobileRegisterBtn = document.getElementById("mobile-register-btn");
+        const loginModal = document.getElementById("login-modal");
+        const registerModal = document.getElementById("register-modal");
+        const closeLogin = document.getElementById("close-login");
+        const closeRegister = document.getElementById("close-register");
+
+        // Auth Elements
+        const authButtons = document.getElementById("auth-buttons");
+        const userInfo = document.getElementById("user-info");
+        const userAvatar = document.getElementById("user-avatar");
+        const userName = document.getElementById("user-name");
+        const logoutBtn = document.getElementById("logout-btn");
+
+        // Mobile Auth Elements
+        const mobileAuthButtons = document.getElementById("mobile-auth-buttons");
+        const mobileUserInfo = document.getElementById("mobile-user-info");
+        const mobileUserAvatar = document.getElementById("mobile-user-avatar");
+        const mobileUserName = document.getElementById("mobile-user-name");
+        const mobileLogoutBtn = document.getElementById("mobile-logout-btn");
+
+        const registerButton = document.getElementById("register-button");
+        const loginForm = document.getElementById("login-form");
+
+        // Check if user is logged in
+        function checkLoginStatus() {
+            const user = localStorage.getItem('user');
+            if (user) {
+                showLoggedInState(user);
+            } else {
+                showLoggedOutState();
+            }
+        }
+
+        // Show logged in state
+        function showLoggedInState(username) {
+            // Update desktop view
+            authButtons.style.display = 'none';
+            userInfo.style.display = 'flex';
+            userName.textContent = username;
+            userAvatar.textContent = username.charAt(0).toUpperCase();
+
+            // Update mobile view
+            mobileAuthButtons.style.display = 'none';
+            mobileUserInfo.style.display = 'flex';
+            mobileUserName.textContent = username;
+            mobileUserAvatar.textContent = username.charAt(0).toUpperCase();
+        }
+
+        // Show logged out state
+        function showLoggedOutState() {
+            // Update desktop view
+            authButtons.style.display = 'flex';
+            userInfo.style.display = 'none';
+
+            // Update mobile view
+            mobileAuthButtons.style.display = 'flex';
+            mobileUserInfo.style.display = 'none';
+        }
+
+        // Event Listeners for Summarizer
         summarizeBtn.addEventListener("click", summarizeURL);
         clearBtn.addEventListener("click", clearForm);
         copyBtn.addEventListener("click", copyToClipboard);
@@ -96,6 +266,130 @@
             }
         });
 
+        // Event Listeners for Navbar and Modals
+        menuToggle.addEventListener("click", toggleMobileMenu);
+        loginBtn.addEventListener("click", () => openModal(loginModal));
+        registerBtn.addEventListener("click", () => openModal(registerModal));
+        mobileLoginBtn.addEventListener("click", () => {
+            closeMobileMenu();
+            openModal(loginModal);
+        });
+        mobileRegisterBtn.addEventListener("click", () => {
+            closeMobileMenu();
+            openModal(registerModal);
+        });
+        closeLogin.addEventListener("click", () => closeModal(loginModal));
+        closeRegister.addEventListener("click", () => closeModal(registerModal));
+
+        // Logout buttons
+        logoutBtn.addEventListener("click", logout);
+        mobileLogoutBtn.addEventListener("click", logout);
+
+        // Close modals when clicking outside
+        window.addEventListener("click", function(event) {
+            if (event.target === loginModal) {
+                closeModal(loginModal);
+            }
+            if (event.target === registerModal) {
+                closeModal(registerModal);
+            }
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            login();
+        });
+
+        // Register button click
+        registerButton.addEventListener("click", register);
+
+        // Functions for Navbar and Modals
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle("active");
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove("active");
+        }
+
+        function openModal(modal) {
+            modal.classList.add("active");
+        }
+
+        function closeModal(modal) {
+            modal.classList.remove("active");
+        }
+
+        async function login() {
+            const username = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+             try {
+                const response = await fetch("https://smartlinkapi.imaginewebsite.com.tr/api/users/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username: username, password: password })
+                });
+
+                if (!response.ok) throw new Error(`Response Status: ${response.status}`);
+                const json = await response.json();
+
+                localStorage.setItem('user', username);
+                localStorage.setItem('id',json.id);
+                showLoggedInState(username);
+                closeModal(loginModal);
+                showToast("Giriş başarılı!");
+            } catch (error) {
+                console.error("Login error:", error);
+                showToast("Giriş başarısız. Lütfen tekrar deneyin.");
+            }
+        }
+
+        async function register() {
+            const username = document.getElementById("register-name").value;
+            const password = document.getElementById("register-password").value;
+            const confirmPassword = document.getElementById("register-confirm-password").value;
+
+            if (password !== confirmPassword) {
+                showToast("Şifreler eşleşmiyor!");
+                return;
+            }
+
+            try {
+                const response = await fetch("https://smartlinkapi.imaginewebsite.com.tr/api/users", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username: username, password: password })
+                });
+
+                if (!response.ok) throw new Error(`Response Status: ${response.status}`);
+
+                // Auto login after successful registration
+                const userData = { username: username };
+                localStorage.setItem('user', username);
+
+                showLoggedInState(username);
+                closeModal(registerModal);
+                showToast("Kayıt başarılı!");
+            } catch (error) {
+                console.error("Register error:", error);
+                showToast("Kayıt başarısız. Lütfen tekrar deneyin.");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            showLoggedOutState();
+            showToast("Çıkış yapıldı!");
+            closeMobileMenu();
+        }
+
+        // Functions for Summarizer
         async function summarizeURL() {
             const url = urlInput.value.trim();
             const title = titleInput.value;
@@ -113,7 +407,7 @@
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ url: url, title: title })
+                    body: JSON.stringify({ url: url, title: title, userid: localStorage.getItem('id') })
                 });
 
                 if (!response.ok) throw new Error(`Response status: ${response.status}`);
@@ -161,6 +455,9 @@
                 toast.classList.remove("show");
             }, 3000);
         }
+
+        // Check login status on page load
+        checkLoginStatus();
     </script>
 </body>
 </html>

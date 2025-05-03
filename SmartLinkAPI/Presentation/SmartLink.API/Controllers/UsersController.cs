@@ -31,6 +31,10 @@ namespace SmartLink.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
+            var userExists = await _userReadRepository.GetSingleAsync(u => u.Username == user.Username);
+            if (userExists != null)
+                return BadRequest(new { message = "An user exists with this username." });
+
             var hashedPassword = _userService.HashPassword(user.Password);
             UserEntity newUser = new() { Username = user.Username, PasswordHash = hashedPassword.Hash, PasswordSalt = hashedPassword.Salt };
             await _userWriteRepository.AddAsync(newUser);

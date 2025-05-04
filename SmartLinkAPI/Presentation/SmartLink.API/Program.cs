@@ -1,8 +1,12 @@
-using Serilog;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SmartLink.Persistance;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using SmartLink.Persistance.Authentication;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 
 
 builder.Services.AddControllers();
@@ -12,13 +16,30 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddPersistanceServices();
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("AllowAll", policy =>
+    opt.AddDefaultPolicy(policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("https://smartlink.imaginewebsite.com.tr", "http://localhost:5042", "https://localhost:7103")
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
 });
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", jwtOptions =>
+    {
+
+        jwtOptions.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero,
+            ValidIssuer = jwtSettings.Issuer,
+            ValidAudience = jwtSettings.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
+        };
+        jwtOptions.MapInboundClaims = false;
+    });
 
 
 
@@ -33,9 +54,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll");
+app.UseCors();
 
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

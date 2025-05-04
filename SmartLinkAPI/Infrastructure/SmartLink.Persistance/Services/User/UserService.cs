@@ -6,7 +6,6 @@ using System.Text;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SmartLink.Application.DTOs.User;
 using SmartLink.Application.Repositories.User;
 using SmartLink.Application.Services.User;
 using SmartLink.Domain.Entities;
@@ -57,18 +56,5 @@ namespace SmartLink.Persistance.Services.User
 
         }
 
-        public async Task<bool> Login(UserLoginDTO user)
-        {
-            var getUser = await _userReadRepository.GetSingleAsync(u => u.Username == user.Username);
-            if (getUser == null)
-                return false;
-
-            var verifyUser = await VerifyPassword(user.Username, user.Password, getUser.PasswordSalt);
-            if (!verifyUser)
-                return false;
-
-            return true;
-
-        }
     }
 }

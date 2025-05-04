@@ -10,7 +10,7 @@ namespace SmartLink.Domain.Entities
     public class LinkEntity : BaseEntity
     {
         public string Url { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public string? Description { get; set; }
         public string Summary { get; set; }
         public bool IsArchived { get; set; } = false;

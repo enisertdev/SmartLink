@@ -1,0 +1,80 @@
+@{Layout=null;}
+
+<html>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+    <ul class="list-group" id="summaries">
+    </ul>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-content">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button id="close-modalBtn" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", async () => {
+            const response = await fetch(`https://localhost:7234/api/link/getlinks/${localStorage.getItem("username")}`, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+                }
+            });
+
+            if (!response.ok) {
+                window.location.href = "/error?statusCode=401";
+            }
+
+            const json = await response.json();
+            const summaryList = document.getElementById("summaries");
+
+            json.url.forEach(link => {
+                let li = document.createElement("li");
+                li.classList.add("list-group-item");
+                li.textContent = link.id;
+                summaryList.appendChild(li);
+                li.style.cursor = "pointer";
+                li.addEventListener("click", () => {
+                    showModal(link.title, link.summary);
+                })
+            });
+        });
+
+        const summaryModal = new bootstrap.Modal(document.getElementById("exampleModalLong"));
+        const modalBtn = document.getElementById("launch-modal");
+        const closeModalBtn = document.getElementById("close-modalBtn");
+
+
+        closeModalBtn.addEventListener("click", () => {
+            summaryModal.hide();
+        })
+
+        function showModal(title, content) {
+            const modalBody = document.getElementById("modal-content");
+            const modalTitle = document.getElementById("modalTitle");
+            modalBody.innerText = content;
+            modalTitle.innerText = title;
+            summaryModal.show();
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

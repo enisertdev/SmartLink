@@ -9,12 +9,14 @@ using SmartLink.Application.Repositories.Link;
 using SmartLink.Application.Repositories.Tag;
 using SmartLink.Application.Repositories.User;
 using SmartLink.Application.Services;
+using SmartLink.Application.Services.Authentication;
 using SmartLink.Application.Services.User;
 using SmartLink.Persistance.DbContext;
 using SmartLink.Persistance.Repositories.Link;
 using SmartLink.Persistance.Repositories.Tag;
 using SmartLink.Persistance.Repositories.User;
 using SmartLink.Persistance.Services;
+using SmartLink.Persistance.Services.Authentication;
 using SmartLink.Persistance.Services.User;
 
 namespace SmartLink.Persistance
@@ -32,6 +34,8 @@ namespace SmartLink.Persistance
             services.AddScoped<IUserWriteRepository, UserWriteRepository>();
             services.AddScoped<ILinkService, LinkService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+            services.AddScoped<ITokenService, TokenService>();
         }
     }
 }

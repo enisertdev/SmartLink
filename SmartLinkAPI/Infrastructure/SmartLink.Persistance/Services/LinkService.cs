@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using Azure;
+using Azure.Core;
+using Azure.AI.OpenAI;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Mscc.GenerativeAI;
 using NUglify;
-using PuppeteerSharp;
+using OpenAI.Chat;
 using SmartLink.Application.Services;
 
 namespace SmartLink.Persistance.Services
@@ -28,19 +23,43 @@ namespace SmartLink.Persistance.Services
         {
 
             var plainText = await GetPlainTextFromHtml(url);
-            var apiKey = _configuration["ApiKey"];
-            if (string.IsNullOrEmpty(apiKey))
+            //  var apiKey = _configuration["ApiKey"];
+            //  if (string.IsNullOrEmpty(apiKey))
+            //  {
+            //      throw new Exception("API key eksik.");
+            //  }
+            //   var prompt = plainText + " \n bu metnin içeriğini detaylıca açıkla.Bazı önemli bilgileri ayrıca vurgula.";
+            ////  var prompt = plainText + " \nexplain this text in detail.";
+
+            //  var googleAi = new GoogleAI(apiKey: apiKey);
+            //  var model = googleAi.GenerativeModel(model: Model.Gemini15Flash);
+            //  var response = await model.GenerateContent(prompt);
+            //deepseek r1
+            var endpoint = new Uri(_configuration["AzureAI:Endpoint"]);
+            var model = _configuration["AzureAI:Model"];
+            var deploymentName = _configuration["AzureAI:DeploymentName"];
+            var apiKey = _configuration["AzureAI:ApiKey"];
+
+            AzureOpenAIClient azureClient = new(
+                endpoint,
+                new AzureKeyCredential(apiKey));
+            ChatClient chatClient = azureClient.GetChatClient(deploymentName);
+
+            var requestOptions = new ChatCompletionOptions()
             {
-                throw new Exception("API key eksik.");
-            }
-            // var prompt = plainText + " \n bu metnin içeriğini detaylıca açıkla.Bazı önemli bilgileri ayrıca vurgula.";
-            var prompt = plainText + " \nexplain this text in detail.";
+                MaxOutputTokenCount = 4096,
+                Temperature = 1.0f,
+                TopP = 1.0f,
+            };
 
-            var googleAi = new GoogleAI(apiKey: apiKey);
-            var model = googleAi.GenerativeModel(model: Model.Gemini15Pro);
-            var response = await model.GenerateContent(prompt);
+            List<ChatMessage> messages = new List<ChatMessage>()
+            {
+                new SystemChatMessage("explain the given text in detail."),
+                new UserChatMessage(plainText),
+            };
 
-            return response.Text;
+            var response = chatClient.CompleteChat(messages, requestOptions);
+            return response.Value.Content[0].Text;
         }
 
         private async Task<string> GetPlainTextFromHtml(string url)

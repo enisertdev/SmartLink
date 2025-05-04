@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartLink.Application.DTOs.User
+namespace SmartLink.Application.Authentication
 {
-    public class UserLoginDTO
+    public class UserAuthentication
     {
         public string Username { get; set; }
         public string Password { get; set; }

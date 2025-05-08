@@ -1,7 +1,12 @@
+using SmartLinkClient.Interfaces;
+using SmartLinkClient.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IVpnDetectorService, VpnDetectorService>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

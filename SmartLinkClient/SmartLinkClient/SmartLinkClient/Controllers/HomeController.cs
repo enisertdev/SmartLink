@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SmartLinkClient.Interfaces;
 using SmartLinkClient.Models;
 
 namespace SmartLinkClient.Controllers
@@ -8,14 +9,18 @@ namespace SmartLinkClient.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IVpnDetectorService _vpnDetectorService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IVpnDetectorService vpnDetectorService)
         {
             _logger = logger;
+            _vpnDetectorService = vpnDetectorService;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+           // if (await _vpnDetectorService.IsUsingVpn())
+             //   return RedirectToAction("ErrorVpn", "Error");
             return View();
         }
 

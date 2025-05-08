@@ -16,5 +16,10 @@ namespace SmartLinkClient.Controllers
             return NotFound();
         }
 
+        public IActionResult ErrorVpn()
+        {
+            return View();
+        }
+
     }
 }

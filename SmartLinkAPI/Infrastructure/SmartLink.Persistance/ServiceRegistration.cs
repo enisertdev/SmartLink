@@ -11,6 +11,7 @@ using SmartLink.Application.Repositories.User;
 using SmartLink.Application.Services;
 using SmartLink.Application.Services.Authentication;
 using SmartLink.Application.Services.User;
+using SmartLink.Domain.Entities.Identity;
 using SmartLink.Persistance.DbContext;
 using SmartLink.Persistance.Repositories.Link;
 using SmartLink.Persistance.Repositories.Tag;
@@ -36,6 +37,7 @@ namespace SmartLink.Persistance
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<SmartLinkDbContext>();
         }
     }
 }

@@ -5,31 +5,37 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SmartLink.Application.Authentication;
+using SmartLink.Application.Repositories.User;
 using SmartLink.Application.Services.Authentication;
+using SmartLink.Domain.Entities.Identity;
 
 namespace SmartLink.Persistance.Services.Authentication
 {
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
+        private UserManager<AppUser> _userManager;
 
-        public TokenService(IConfiguration configuration)
+        public TokenService(IConfiguration configuration, UserManager<AppUser> userManager)
         {
             _configuration = configuration;
+            _userManager = userManager;
         }
 
-        public string GenerateToken(UserAuthentication model)
+        public async Task<string> GenerateToken(UserAuthentication model)
         {
+            var user = await _userManager.FindByEmailAsync(model.Email);
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:Secret"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("username", model.Username)
+                    new Claim(ClaimTypes.NameIdentifier, user.Id)
                 }),
                 Issuer = _configuration["JwtSettings:Issuer"],
                 Audience = _configuration["JwtSettings:Audience"],

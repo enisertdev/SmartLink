@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SmartLink.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
-namespace SmartLink.Application.Services.User
+namespace SmartLink.Domain.Entities.Identity
 {
-    public interface IUserService
+    public class AppRole : IdentityRole
     {
     }
 }

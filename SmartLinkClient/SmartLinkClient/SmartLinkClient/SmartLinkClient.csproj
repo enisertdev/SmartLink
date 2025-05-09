@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.3.5" />
+    <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.69.0" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.69.0.3769" />
     <PackageReference Include="IPinfo" Version="3.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />

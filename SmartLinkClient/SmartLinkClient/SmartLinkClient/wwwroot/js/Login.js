@@ -20,11 +20,11 @@ class LoginManager {
     }
 
     async login() {
-        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        if (username == "" || password == "") {
-            showToast("ERROR", "Username or password cannot be empty.");
+        if (email == "" || password == "") {
+            showToast("ERROR", "Email or password cannot be empty.");
             return;
         }
         try {
@@ -33,14 +33,14 @@ class LoginManager {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ username: username, password: password })
+                body: JSON.stringify({ email: email, password: password })
             });
             if (!response.ok) {
-                showToast("ERROR", "Username or password is incorrect.");
+                showToast("ERROR", "Email or password is incorrect.");
                 throw new Error(`Response Status: ${response.status}`);
             }
             const json = await response.json();
-            localStorage.setItem("username", username);
+            localStorage.setItem("email", email);
             localStorage.setItem("jwt", json.token);
             showToast("SUCCESS", "Login successful.");
             this.hideLoginModal();

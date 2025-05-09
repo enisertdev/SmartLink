@@ -4,6 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SmartLink.Persistance.Authentication;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using SmartLink.Domain.Entities.Identity;
+using SmartLink.Persistance.DbContext;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
@@ -18,13 +22,29 @@ builder.Services.AddCors(opt =>
 {
     opt.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("https://smartlink.imaginewebsite.com.tr", "http://localhost:5042", "https://localhost:7103")
+        policy.WithOrigins("https://smartlink.imaginewebsite.com.tr", "https://localhost:7103")
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
 });
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", jwtOptions =>
+
+builder.Services.Configure<IdentityOptions>(opt =>
+{
+    opt.Password.RequireDigit = true;
+    opt.Password.RequireLowercase = true;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequiredLength = 6;
+    opt.Password.RequiredUniqueChars = 0;
+});
+
+
+builder.Services.AddAuthentication(opt =>
+    {
+        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(jwtOptions =>
     {
 
         jwtOptions.TokenValidationParameters = new TokenValidationParameters
@@ -56,6 +76,8 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
 
 app.UseAuthentication();
 app.UseAuthorization();

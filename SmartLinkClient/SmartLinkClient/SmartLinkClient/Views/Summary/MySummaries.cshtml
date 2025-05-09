@@ -33,7 +33,7 @@
 
     <script>
         window.addEventListener("DOMContentLoaded", async () => {
-            const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/link/getlinks/${localStorage.getItem("username")}`, {
+            const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/link/getlinks`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("jwt")}`
                 }

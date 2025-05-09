@@ -9,6 +9,6 @@ namespace SmartLink.Application.Services.Authentication
 {
     public interface ITokenService
     {
-        string GenerateToken(UserAuthentication model);
+        Task<string> GenerateToken(UserAuthentication model);
     }
 }

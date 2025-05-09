@@ -6,12 +6,11 @@ class AuthenticateManager{
 
     async isValidJwt()
     {
-        const username = localStorage.getItem("username")
         const jwt = localStorage.getItem("jwt")
-        if (!username || !jwt) {
+        if (!jwt) {
             return false;
         }
-        const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/users/profile/${username}`, {
+        const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/users/validate`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${jwt}`

@@ -17,11 +17,13 @@ class RegisterManager {
         this.registerModal.hide();
     }
 
-    async register() {
+    async register() 
+    {
+        const email = document.getElementById("register-email").value;
         const username = document.getElementById("register-username").value;
         const password = document.getElementById("register-password").value;
         const repeatPassword = document.getElementById("password-repeat").value;
-        if (!username || !password || !repeatPassword) {
+        if (!username || !password || !repeatPassword || !email) {
             showToast("ERROR", "All fields are required.");
             return;
         }
@@ -34,7 +36,7 @@ class RegisterManager {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ username: username, password: password })
+            body: JSON.stringify({ email: email,username: username, password: password })
         });
         if (!response.ok) {
             const json = await response.json();

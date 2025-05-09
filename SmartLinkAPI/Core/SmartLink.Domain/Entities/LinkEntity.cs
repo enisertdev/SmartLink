@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SmartLink.Domain.Entities.Identity;
 
 namespace SmartLink.Domain.Entities
 {
@@ -15,8 +16,8 @@ namespace SmartLink.Domain.Entities
         public string Summary { get; set; }
         public bool IsArchived { get; set; } = false;
         public string? Notes { get; set; }
-        public Guid? UserId { get; set; }
-        public UserEntity? User { get; set; }
+        public string? UserId { get; set; }
+        public AppUser? User { get; set; }
         public ICollection<LinkTag> LinkTags { get; set; }
     }
 }

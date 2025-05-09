@@ -6,10 +6,15 @@ class AuthenticateManager{
 
     async isValidJwt()
     {
-        const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/users/profile/${localStorage.getItem("username")}`, {
+        const username = localStorage.getItem("username")
+        const jwt = localStorage.getItem("jwt")
+        if (!username || !jwt) {
+            return false;
+        }
+        const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/users/profile/${username}`, {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+                "Authorization": `Bearer ${jwt}`
             }
         }); 
         if (!response.ok) {

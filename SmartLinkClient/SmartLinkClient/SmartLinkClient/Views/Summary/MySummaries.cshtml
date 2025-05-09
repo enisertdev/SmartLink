@@ -1,4 +1,6 @@
-@{Layout=null;}
+@{
+    Layout = null;
+}
 
 <html>
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -10,19 +12,20 @@
     </ul>
     <!-- Modal -->
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-        aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitle">Modal title</h5>
-                    </button>
                 </div>
                 <div class="modal-body" id="modal-content">
                     ...
                 </div>
                 <div class="modal-footer">
                     <button id="close-modalBtn" type="button" class="btn btn-secondary"
-                        data-dismiss="modal">Close</button>
+                            data-dismiss="modal">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
@@ -30,7 +33,7 @@
 
     <script>
         window.addEventListener("DOMContentLoaded", async () => {
-            const response = await fetch(`https://localhost:7234/api/link/getlinks/${localStorage.getItem("username")}`, {
+            const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/link/getlinks/${localStorage.getItem("username")}`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("jwt")}`
                 }

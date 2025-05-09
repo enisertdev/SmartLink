@@ -1,4 +1,4 @@
-﻿body {
+﻿﻿body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -21,7 +21,7 @@
     padding: 10px 20px;
 }
 
-#mySummariesBtn{
+#mySummariesBtn {
     display: none;
 }
 
@@ -131,30 +131,30 @@
     text-align: center;
 }
 
-.loader::before {
-    content: "Summarizing..";
-    color: #333;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 32px;
-    letter-spacing: 2px;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: floating 1s ease-out infinite alternate;
-}
+    .loader::before {
+        content: "Summarizing..";
+        color: #333;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 32px;
+        letter-spacing: 2px;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: floating 1s ease-out infinite alternate;
+    }
 
-.loader::after {
-    content: "";
-    width: 100%;
-    height: 10px;
-    background: rgba(0, 0, 0, 0.15);
-    position: absolute;
-    left: 0;
-    top: 100%;
-    filter: blur(4px);
-    border-radius: 50%;
-    box-sizing: border-box;
-    animation: animloader 1s ease-out infinite alternate;
-}
+    .loader::after {
+        content: "";
+        width: 100%;
+        height: 10px;
+        background: rgba(0, 0, 0, 0.15);
+        position: absolute;
+        left: 0;
+        top: 100%;
+        filter: blur(4px);
+        border-radius: 50%;
+        box-sizing: border-box;
+        animation: animloader 1s ease-out infinite alternate;
+    }
 
 @keyframes floating {
     0% {

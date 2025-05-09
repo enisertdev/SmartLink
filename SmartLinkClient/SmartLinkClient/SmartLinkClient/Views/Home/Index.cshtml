@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -215,7 +215,7 @@
         async function getSummary(url) {
             activateLoader();
             try {
-                const response = await fetch("https://smartlinkapi.imaginewebsite.com.tr/api/linkapi/link", {
+                const response = await fetch("https://smartlinkapi.imaginewebsite.com.tr/api/link", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

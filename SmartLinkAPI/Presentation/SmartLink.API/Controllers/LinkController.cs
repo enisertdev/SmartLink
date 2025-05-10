@@ -35,6 +35,15 @@ namespace SmartLink.API.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetLink(string id)
+        {
+            var link = await _linkReadRepository.GetByIdAsync(Guid.Parse(id));
+            if (link == null)
+                return BadRequest(new { message = "Link could not be found" });
+            return Ok(new {summary = link.Summary, title = link.Title});
+        }
+
         [Authorize]
         [HttpGet]
         public IActionResult GetLinks()

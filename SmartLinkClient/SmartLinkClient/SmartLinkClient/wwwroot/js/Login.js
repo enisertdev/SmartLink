@@ -35,14 +35,13 @@ class LoginManager {
                 },
                 body: JSON.stringify({ email: email, password: password })
             });
-            if (!response.ok) {
-                showToast("ERROR", "Email or password is incorrect.");
-                throw new Error(`Response Status: ${response.status}`);
-            }
             const json = await response.json();
+            if (!response.ok) {
+                showToast("ERROR", json.message);
+            }
             localStorage.setItem("email", email);
             localStorage.setItem("jwt", json.token);
-            showToast("SUCCESS", "Login successful.");
+            showToast("SUCCESS", json.message);
             this.hideLoginModal();
             setTimeout(() => {
                 window.location.reload();

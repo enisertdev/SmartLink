@@ -38,12 +38,12 @@ class RegisterManager {
             },
             body: JSON.stringify({ email: email,username: username, password: password })
         });
+        const json = await response.json();
         if (!response.ok) {
-            const json = await response.json();
             showToast("ERROR", json.message);
             return;
         }
-        showToast("SUCCESS", "Register was success, now you can login.");
+        showToast("SUCCESS", json.message);
 
         this.hideRegisterModal();
 

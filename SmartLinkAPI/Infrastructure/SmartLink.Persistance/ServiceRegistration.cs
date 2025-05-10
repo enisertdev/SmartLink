@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SmartLink.Application.DTOs.User;
 using SmartLink.Application.Repositories.Link;
 using SmartLink.Application.Repositories.Tag;
 using SmartLink.Application.Repositories.User;
 using SmartLink.Application.Services;
 using SmartLink.Application.Services.Authentication;
 using SmartLink.Application.Services.User;
+using SmartLink.Application.Validators;
 using SmartLink.Domain.Entities.Identity;
 using SmartLink.Persistance.DbContext;
 using SmartLink.Persistance.Repositories.Link;
@@ -37,6 +40,7 @@ namespace SmartLink.Persistance
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IValidator<UserRegisterDto>, UserValidator>();
             services.AddScoped<HttpClient>();
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<SmartLinkDbContext>();
         }

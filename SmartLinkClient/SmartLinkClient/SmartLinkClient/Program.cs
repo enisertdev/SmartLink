@@ -12,7 +12,14 @@ var clientSecret = builder.Configuration["GoogleAuthentication:ClientSecret"];
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IVpnDetectorService, VpnDetectorService>();
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("https://localhost:7103", "https://smartlinkapi.imaginewebsite.com.tr")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
 
 var app = builder.Build();
 
@@ -26,7 +33,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseCors("AllowSpecificOrigin");
 app.UseRouting();
 
 app.UseAuthentication();

@@ -9,11 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Summarizer</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/Login.js?v=1"></script>
-    <script src="~/js/Authenticate.js?v=1"></script>
-    <script src="~/js/Register.js?v=1"></script>
+    <script src="~/js/Login.js"></script>
+    <script src="~/js/Authenticate.js"></script>
+    <script src="~/js/Register.js"></script>
+    <script src="~/js/signalr.js"></script>
     <link rel="stylesheet" href="~/css/index.css?v=1" />
 </head>
 
@@ -136,7 +138,7 @@
                 toggleLoginStyles(false);
                 return;
             }
-            last5Queries();
+           // last5Queries();
             try {
                 const isValid = await authManager.isValidJwt();
                 toggleLoginStyles(isValid);
@@ -250,6 +252,7 @@
         }
 
         async function last5Queries(){
+            linkList.innerHTML = '';
             const response = await fetch("https://smartlinkapi.imaginewebsite.com.tr/api/link/last5");
             const json = await response.json();
             if(!response.ok)

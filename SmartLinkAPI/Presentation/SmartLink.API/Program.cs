@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using SmartLink.Domain.Entities.Identity;
 using SmartLink.Persistance.DbContext;
 using System.IdentityModel.Tokens.Jwt;
+using SmartLink.API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
@@ -19,13 +20,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPersistanceServices();
+builder.Services.AddSignalR();
 builder.Services.AddCors(opt =>
 {
     opt.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins("https://smartlink.imaginewebsite.com.tr", "https://localhost:7103")
         .AllowAnyHeader()
-        .AllowAnyMethod();
+        .AllowAnyMethod()
+        .AllowCredentials();
     });
 });
 
@@ -74,7 +77,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseCors();
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -84,5 +86,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<LinkHub>("/linkHub");
 
 app.Run();

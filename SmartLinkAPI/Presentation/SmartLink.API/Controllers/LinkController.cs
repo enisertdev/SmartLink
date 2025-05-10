@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using SmartLink.API.Hubs;
 using SmartLink.Application.Repositories.Link;
 using SmartLink.Application.Repositories.User;
 using SmartLink.Application.Services;
@@ -20,19 +22,21 @@ namespace SmartLink.API.Controllers
         private readonly ILinkService _linkService;
         private readonly IUserReadRepository _userReadRepository;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IHubContext<LinkHub> _hubContext;
 
         public class AddLinkRequest
         {
             public string Url { get; set; }
         }
 
-        public LinkController(ILinkReadRepository linkReadRepository, ILinkWriteRepository linkWriteRepository, ILinkService linkService, IUserReadRepository userReadRepository, UserManager<AppUser> userManager)
+        public LinkController(ILinkReadRepository linkReadRepository, ILinkWriteRepository linkWriteRepository, ILinkService linkService, IUserReadRepository userReadRepository, UserManager<AppUser> userManager, IHubContext<LinkHub> hubContext)
         {
             _linkReadRepository = linkReadRepository;
             _linkWriteRepository = linkWriteRepository;
             _linkService = linkService;
             _userReadRepository = userReadRepository;
             _userManager = userManager;
+            _hubContext = hubContext;
         }
 
         [HttpGet("{id}")]
@@ -99,6 +103,8 @@ namespace SmartLink.API.Controllers
                 { Url = request.Url, Summary = sum, UserId = user.Id, Title = title };
                 await _linkWriteRepository.AddAsync(link);
                 await _linkWriteRepository.SaveChangesAsync();
+
+                await _hubContext.Clients.All.SendAsync("ReceiveLinkUpdate", title);
                 return Ok(new
                 {
                     summary = link.Summary,

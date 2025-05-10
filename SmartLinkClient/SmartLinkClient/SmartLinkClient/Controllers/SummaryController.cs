@@ -12,5 +12,12 @@ namespace SmartLinkClient.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Index(string id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+
     }
 }

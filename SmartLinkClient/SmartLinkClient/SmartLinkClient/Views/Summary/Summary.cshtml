@@ -1,0 +1,16 @@
+﻿
+
+
+
+
+
+
+<script>
+    let linkId = @ViewBag.Id;
+    const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/link/id${linkId}`);
+    const json = response.json();
+    if(!response.ok)
+        console.log(json.message);
+    const summaryEl = document.createElement("h1");
+    summaryEl.innerText = json.summary;
+</script>

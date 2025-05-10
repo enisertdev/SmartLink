@@ -15,12 +15,12 @@ using SmartLink.Domain.Entities.Identity;
 
 namespace SmartLink.Persistance.Services.Authentication
 {
-    public class TokenService : ITokenService
+    public class JwtService : IJwtService
     {
         private readonly IConfiguration _configuration;
         private UserManager<AppUser> _userManager;
 
-        public TokenService(IConfiguration configuration, UserManager<AppUser> userManager)
+        public JwtService(IConfiguration configuration, UserManager<AppUser> userManager)
         {
             _configuration = configuration;
             _userManager = userManager;

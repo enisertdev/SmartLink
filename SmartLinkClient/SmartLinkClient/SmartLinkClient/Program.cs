@@ -13,19 +13,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IVpnDetectorService, VpnDetectorService>();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthentication(o =>
-{
-    o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
-    o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
-    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
-    .AddCookie()
-    .AddGoogleOpenIdConnect(opt =>
-    {
-        opt.ClientId = clientId;
-        opt.ClientSecret = clientSecret;
-    });
-
 
 var app = builder.Build();
 

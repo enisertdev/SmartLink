@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SmartLink.Application.Services.Authentication
 {
-    public interface ITokenService
+    public interface IJwtService
     {
         Task<string> GenerateToken(UserAuthentication model);
     }

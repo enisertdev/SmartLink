@@ -21,15 +21,15 @@ namespace SmartLink.Persistance.Services.Authentication
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
         private readonly IUserReadRepository _userReadRepository;
-        private readonly ITokenService _tokenService;
+        private readonly IJwtService _jwtService;
         private readonly UserManager<AppUser> _userManager;
 
-        public UserAuthenticationService(IConfiguration configuration, IUserService userService, IUserReadRepository userReadRepository, ITokenService tokenService, UserManager<AppUser> userManager)
+        public UserAuthenticationService(IConfiguration configuration, IUserService userService, IUserReadRepository userReadRepository, IJwtService jwtService, UserManager<AppUser> userManager)
         {
             _configuration = configuration;
             _userService = userService;
             _userReadRepository = userReadRepository;
-            _tokenService = tokenService;
+            _jwtService = jwtService;
             _userManager = userManager;
         }
 
@@ -41,7 +41,7 @@ namespace SmartLink.Persistance.Services.Authentication
             var loginUser =await _userManager.CheckPasswordAsync(user, model.Password);
             if (!loginUser)
                 return string.Empty;
-            return await _tokenService.GenerateToken(model);
+            return await _jwtService.GenerateToken(model);
         }
     }
 }

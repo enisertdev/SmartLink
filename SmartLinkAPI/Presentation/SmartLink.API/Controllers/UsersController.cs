@@ -40,7 +40,7 @@ namespace SmartLink.API.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
@@ -61,7 +61,7 @@ namespace SmartLink.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("Validate")]
+        [HttpGet("validate")]
         public async Task<IActionResult> ValidateUser()
         {
             var getUserIdFromToken = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -82,11 +82,20 @@ namespace SmartLink.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] UserAuthentication user)
         {
-            var findUser = await _userManager.FindByEmailAsync(user.Email);
-            var token = await _userAuthenticationService.Login(user);
-            if (token == null || token == string.Empty)
-                return BadRequest(new { message = "Username or password is incorrect." });
-            return Ok(new {token = token });
+            try
+            {
+                var findUser = await _userManager.FindByEmailAsync(user.Email);
+                var token = await _userAuthenticationService.Login(user);
+
+                if (string.IsNullOrEmpty(token))
+                    return BadRequest(new { message = "Username or password is incorrect." });
+
+                return Ok(new { token = token });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal Server Error", error = ex.Message, stackTrace = ex.StackTrace });
+            }
         }
     }
 }

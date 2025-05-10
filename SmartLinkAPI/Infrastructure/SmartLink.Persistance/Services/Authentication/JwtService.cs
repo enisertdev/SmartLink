@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SmartLink.Application.Authentication;
-using SmartLink.Application.Repositories.User;
 using SmartLink.Application.Services.Authentication;
 using SmartLink.Domain.Entities.Identity;
 
@@ -18,7 +13,7 @@ namespace SmartLink.Persistance.Services.Authentication
     public class JwtService : IJwtService
     {
         private readonly IConfiguration _configuration;
-        private UserManager<AppUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
         public JwtService(IConfiguration configuration, UserManager<AppUser> userManager)
         {

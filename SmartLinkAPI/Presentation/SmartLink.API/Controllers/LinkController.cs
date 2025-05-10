@@ -75,10 +75,12 @@ namespace SmartLink.API.Controllers
                 return Unauthorized("User not found");
             try
             {
+                string title = await _linkService.CreateSummaryTitle(request.Url);
                 string sum = await _linkService.GetAiSummary(request.Url);
+
                 //will be replaced with dto
                 LinkEntity link = new LinkEntity
-                { Url = request.Url, Summary = sum, UserId = user.Id };
+                { Url = request.Url, Summary = sum, UserId = user.Id, Title = title };
                 await _linkWriteRepository.AddAsync(link);
                 await _linkWriteRepository.SaveChangesAsync();
                 return Ok(new

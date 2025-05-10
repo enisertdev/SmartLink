@@ -49,7 +49,7 @@
             json.url.forEach(link => {
                 let li = document.createElement("li");
                 li.classList.add("list-group-item");
-                li.textContent = link.id;
+                li.textContent = link.title;
                 summaryList.appendChild(li);
                 li.style.cursor = "pointer";
                 li.addEventListener("click", () => {

@@ -31,7 +31,7 @@ class RegisterManager {
             showToast("ERROR", "Passwords do not match.");
             return;
         }
-        const response = await fetch("https://smartlinkapi.imaginewebsite.com.tr/api/users", {
+        const response = await fetch("https://smartlinkapi.imaginewebsite.com.tr/api/users/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

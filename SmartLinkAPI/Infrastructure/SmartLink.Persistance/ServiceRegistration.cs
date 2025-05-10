@@ -36,7 +36,8 @@ namespace SmartLink.Persistance
             services.AddScoped<ILinkService, LinkService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
-            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<HttpClient>();
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<SmartLinkDbContext>();
         }
     }

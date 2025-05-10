@@ -10,5 +10,6 @@ namespace SmartLink.Application.Services
     public interface ILinkService
     {
         Task<string> GetAiSummary(string url);
+        Task<string> CreateSummaryTitle(string url);
     }
 }

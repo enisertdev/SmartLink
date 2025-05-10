@@ -6,32 +6,38 @@
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+<link rel="stylesheet" href="~/css/summary.css"/>
 <body>
-    <ul class="list-group" id="summaries">
-    </ul>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Modal title</h5>
-                </div>
-                <div class="modal-body" id="modal-content">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button id="close-modalBtn" type="button" class="btn btn-secondary"
-                            data-dismiss="modal">
-                        Close
-                    </button>
-                </div>
+<button id="homeBtn">Home</button>
+<ul class="list-group" id="summaries">
+</ul>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal title</h5>
+            </div>
+            <div class="modal-body" id="modal-content">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button id="close-modalBtn" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button id="delete-linkBtn" type="button" class="btn btn-danger"
+                        data-dismiss="modal">
+                    Delete
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
+<script>
+        let currentId;
         window.addEventListener("DOMContentLoaded", async () => {
             const response = await fetch(`https://smartlinkapi.imaginewebsite.com.tr/api/link/getlinks`, {
                 headers: {
@@ -50,10 +56,11 @@
                 let li = document.createElement("li");
                 li.classList.add("list-group-item");
                 li.textContent = link.title;
+                li.dataset.id = link.id;
                 summaryList.appendChild(li);
                 li.style.cursor = "pointer";
                 li.addEventListener("click", () => {
-                    showModal(link.title, link.summary);
+                    showModal(link.title, link.summary, link.id);
                 })
             });
         });
@@ -61,22 +68,53 @@
         const summaryModal = new bootstrap.Modal(document.getElementById("exampleModalLong"));
         const modalBtn = document.getElementById("launch-modal");
         const closeModalBtn = document.getElementById("close-modalBtn");
+        const deleteLinkBtn = document.getElementById("delete-linkBtn");
+        const homeBtn = document.getElementById("homeBtn");
 
+        deleteLinkBtn.addEventListener("click", async () =>{
+            await deleteLink(currentId);
+        });
 
         closeModalBtn.addEventListener("click", () => {
             summaryModal.hide();
         })
+        
+        homeBtn.addEventListener("click", () =>{
+            window.location.href ="/home";
+        });
 
-        function showModal(title, content) {
+
+
+        function showModal(title, content,id) {
             const modalBody = document.getElementById("modal-content");
             const modalTitle = document.getElementById("modalTitle");
             modalBody.innerText = content;
             modalTitle.innerText = title;
+            currentId = id;
             summaryModal.show();
         }
 
+        async function deleteLink(id)
+        {
+            const response = await fetch(`https://localhost:7234/api/link/delete/${id}`,
+            {
+                method: "DELETE",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+                }
+            });
+            if(!response.ok)
+            {
+                console.log(response.status);
+            }
+            document.querySelector(`li[data-id="${id}"]`).remove();
+            summaryModal.hide();
+            console.log(response.status);
+
+        }
+
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

@@ -95,5 +95,22 @@ namespace SmartLink.API.Controllers
                 return StatusCode(500, "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
             }
         }
+
+        [Authorize]
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteLink(string id)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+                return Unauthorized();
+            var link = await _linkReadRepository.GetByIdAsync(Guid.Parse(id));
+            if (link.UserId != userId)
+                return Unauthorized();
+            _linkWriteRepository.RemoveAsync(link);
+            await _linkWriteRepository.SaveChangesAsync();
+            return Ok("Link has been removed.");
+
+
+        }
     }
 }

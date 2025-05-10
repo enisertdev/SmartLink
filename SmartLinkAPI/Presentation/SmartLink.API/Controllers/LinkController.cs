@@ -53,6 +53,13 @@ namespace SmartLink.API.Controllers
             return Ok(links);
         }
 
+        [HttpGet("last5")]
+        public IActionResult GetLast5Links()
+        {
+            var links = _linkReadRepository.GetAll().OrderByDescending(x => x.CreatedAt).Take(5).Select(l => new{l.Title, l.Id}).ToList();
+            return Ok(new { title = links });
+        }
+
         [Authorize]
         [HttpGet("GetLinks")]
         public async Task<IActionResult> GetLinksForUser()

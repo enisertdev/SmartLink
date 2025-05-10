@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/Login.js"></script>
-    <script src="~/js/Authenticate.js"></script>
-    <script src="~/js/Register.js"></script>
-    <link rel="stylesheet" href="~/css/index.css" />
+    <script src="~/js/Login.js?v=1"></script>
+    <script src="~/js/Authenticate.js?v=1"></script>
+    <script src="~/js/Register.js?v=1"></script>
+    <link rel="stylesheet" href="~/css/index.css?v=1" />
 </head>
 
 <body>
@@ -94,12 +94,14 @@
         <button id="urlSubmitBtn" class="submit-button" type="button">Submit</button>
     </div>
 
-    <div id="summary" class="summary-container">
-        <!-- Summary content will appear here -->
-    </div>
+<div id="summary" class="summary-container">
+    <!-- Summary content will appear here -->
+</div>
+<p>Last 5 queries</p>
+<ul id ="list-item" class="list-group"></ul>
     <partial name="~/Views/Shared/_ToastPartial.cshtml" />
     <footer class="footer">
-        <div class="footer-content">© Enis Ertanrıkulu</div>
+        <a target="_blank "href="https://www.github.com/enisertdev"><div class="footer-content">© Enisertdev </div></a>
     </footer>
     <script>
         let urlSubmit = document.getElementById("urlSubmitBtn");
@@ -116,6 +118,7 @@
         const registerBtn = document.getElementById("registerBtn");
         const registerModal = new bootstrap.Modal(document.getElementById("register-modal"));
         const registerModalBtn = document.getElementById("modalRegisterBtn");
+        const linkList = document.getElementById("list-item");
 
         const loginManager = new LoginManager(loginBtn, logoutBtn, loginModal, loginBtnModal,);
         loginManager.init();
@@ -133,7 +136,7 @@
                 toggleLoginStyles(false);
                 return;
             }
-
+            last5Queries();
             try {
                 const isValid = await authManager.isValidJwt();
                 toggleLoginStyles(isValid);
@@ -246,9 +249,29 @@
             }
         }
 
+        async function last5Queries(){
+            const response = await fetch("https://smartlinkapi.imaginewebsite.com.tr/api/link/last5");
+            const json = await response.json();
+            if(!response.ok)
+            {
+                console.log(json.status);
+            }
+            json.title.forEach(link =>{
+                let li = document.createElement("li");
+                li.classList.add("list-group-item");
+                li.textContent = link.title;
+                linkList.appendChild(li);
+                li.style.cursor = "pointer";
+                li.addEventListener("click", () => {
+                    const baseUrl = `@Url.Action("Index","Summary")`;
+                    window.location.href = `${baseUrl}?id=${link.id}`;
+                })
+            });
+
+        }
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" asy></script>
 
 </body>
 

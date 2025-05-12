@@ -130,6 +130,7 @@ namespace SmartLink.API.Controllers
                 return Unauthorized();
             _linkWriteRepository.RemoveAsync(link);
             await _linkWriteRepository.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("ReceiveLinkDelete", link.Title);
             return Ok("Link has been removed.");
 
 

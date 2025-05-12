@@ -6,6 +6,10 @@ connection.on("ReceiveLinkUpdate", (linkTitle) => {
     last5Queries();
 });
 
+connection.on("ReceiveLinkDelete", (linkId) => {
+    last5Queries();
+})
+
 connection.start()
     .then(() => {
         console.log("SignalR connection established successfully.");

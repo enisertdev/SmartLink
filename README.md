@@ -19,7 +19,7 @@ SmartLink/
 
 - ✅ **.NET 8**
 - 🧅 **Onion Architecture**
-- 🧠 **Google Gemini Pro API** – Yapay zekâ destekli metin özetleme
+- 🧠 **OpenAI ChatGPT API** – Yapay zekâ destekli metin özetleme
 - 🗃️ **Entity Framework Core** + **MSSQL**
 - 🌐 **ASP.NET Core Web API** – RESTful servisler
 - 🌐 **Json Web Token Authentication** – Jwt ile kullanıcı doğrulama
